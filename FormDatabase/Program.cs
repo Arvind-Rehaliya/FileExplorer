@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace FileExplorer
+namespace FormDatabase
 {
     static class Program
     {

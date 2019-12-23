@@ -1,4 +1,4 @@
-﻿namespace FileExplorer
+﻿namespace FormDatabase
 {
     partial class File
     {
@@ -37,7 +37,6 @@
             // 
             // fl_file
             // 
-            this.fl_file.AutoSize = true;
             this.fl_file.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.fl_file.Controls.Add(this.pb_file);
             this.fl_file.Controls.Add(this.lb_name);
@@ -49,7 +48,7 @@
             // 
             // pb_file
             // 
-            this.pb_file.Image = global::FileExplorer.Properties.Resources.document_160;
+            this.pb_file.Image = global::FormDatabase.Properties.Resources.document_160;
             this.pb_file.Location = new System.Drawing.Point(3, 3);
             this.pb_file.Name = "pb_file";
             this.pb_file.Padding = new System.Windows.Forms.Padding(5);
@@ -75,13 +74,12 @@
             // 
             // File
             // 
-            this.ClientSize = new System.Drawing.Size(104, 117);
+            this.ClientSize = new System.Drawing.Size(116, 117);
             this.Controls.Add(this.fl_file);
             this.Name = "File";
             this.fl_file.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pb_file)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
