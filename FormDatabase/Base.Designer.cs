@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Desktop");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Downloads");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Recent places");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Favorites", new System.Windows.Forms.TreeNode[] {
-            treeNode10,
-            treeNode11,
-            treeNode12});
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Documents");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Music");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Pictures");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Videos");
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Libraries", new System.Windows.Forms.TreeNode[] {
-            treeNode14,
-            treeNode15,
-            treeNode16,
-            treeNode17});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Desktop");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Downloads");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Recent places");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Favorites", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode3});
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Documents");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Music");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Pictures");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Videos");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Libraries", new System.Windows.Forms.TreeNode[] {
+            treeNode5,
+            treeNode6,
+            treeNode7,
+            treeNode8});
             this.pn_flow = new System.Windows.Forms.FlowLayoutPanel();
             this.lb_info = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -71,7 +71,7 @@
             // pn_flow
             // 
             this.pn_flow.AutoScroll = true;
-            this.pn_flow.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pn_flow.BackColor = System.Drawing.Color.Black;
             this.pn_flow.Controls.Add(this.lb_info);
             this.pn_flow.Cursor = System.Windows.Forms.Cursors.Default;
             this.pn_flow.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -126,7 +126,7 @@
             // 
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.ControlText;
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.Black;
             this.flowLayoutPanel1.Controls.Add(this.tv_favorites);
             this.flowLayoutPanel1.Controls.Add(this.tv_libraries);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -139,7 +139,7 @@
             // 
             // tv_favorites
             // 
-            this.tv_favorites.BackColor = System.Drawing.SystemColors.InfoText;
+            this.tv_favorites.BackColor = System.Drawing.Color.Black;
             this.tv_favorites.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tv_favorites.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tv_favorites.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -148,24 +148,24 @@
             this.tv_favorites.LineColor = System.Drawing.Color.White;
             this.tv_favorites.Location = new System.Drawing.Point(3, 3);
             this.tv_favorites.Name = "tv_favorites";
-            treeNode10.BackColor = System.Drawing.Color.Black;
-            treeNode10.ForeColor = System.Drawing.Color.White;
-            treeNode10.Name = "Desktop";
-            treeNode10.Text = "Desktop";
-            treeNode11.BackColor = System.Drawing.Color.Black;
-            treeNode11.ForeColor = System.Drawing.Color.White;
-            treeNode11.Name = "Downloads";
-            treeNode11.Text = "Downloads";
-            treeNode12.BackColor = System.Drawing.Color.Black;
-            treeNode12.ForeColor = System.Drawing.Color.White;
-            treeNode12.Name = "Recent Places";
-            treeNode12.Text = "Recent places";
-            treeNode13.BackColor = System.Drawing.Color.Gray;
-            treeNode13.ForeColor = System.Drawing.Color.White;
-            treeNode13.Name = "Favorites";
-            treeNode13.Text = "Favorites";
+            treeNode1.BackColor = System.Drawing.Color.Black;
+            treeNode1.ForeColor = System.Drawing.Color.White;
+            treeNode1.Name = "Desktop";
+            treeNode1.Text = "Desktop";
+            treeNode2.BackColor = System.Drawing.Color.Black;
+            treeNode2.ForeColor = System.Drawing.Color.White;
+            treeNode2.Name = "Downloads";
+            treeNode2.Text = "Downloads";
+            treeNode3.BackColor = System.Drawing.Color.Black;
+            treeNode3.ForeColor = System.Drawing.Color.White;
+            treeNode3.Name = "Recent Places";
+            treeNode3.Text = "Recent places";
+            treeNode4.BackColor = System.Drawing.Color.Gray;
+            treeNode4.ForeColor = System.Drawing.Color.White;
+            treeNode4.Name = "Favorites";
+            treeNode4.Text = "Favorites";
             this.tv_favorites.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode13});
+            treeNode4});
             this.tv_favorites.Scrollable = false;
             this.tv_favorites.Size = new System.Drawing.Size(138, 112);
             this.tv_favorites.TabIndex = 7;
@@ -173,7 +173,7 @@
             // 
             // tv_libraries
             // 
-            this.tv_libraries.BackColor = System.Drawing.SystemColors.InfoText;
+            this.tv_libraries.BackColor = System.Drawing.Color.Black;
             this.tv_libraries.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tv_libraries.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tv_libraries.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -182,28 +182,28 @@
             this.tv_libraries.LineColor = System.Drawing.Color.White;
             this.tv_libraries.Location = new System.Drawing.Point(3, 121);
             this.tv_libraries.Name = "tv_libraries";
-            treeNode14.BackColor = System.Drawing.Color.Black;
-            treeNode14.ForeColor = System.Drawing.Color.White;
-            treeNode14.Name = "Documents";
-            treeNode14.Text = "Documents";
-            treeNode15.BackColor = System.Drawing.Color.Black;
-            treeNode15.ForeColor = System.Drawing.Color.White;
-            treeNode15.Name = "Music";
-            treeNode15.Text = "Music";
-            treeNode16.BackColor = System.Drawing.Color.Black;
-            treeNode16.ForeColor = System.Drawing.Color.White;
-            treeNode16.Name = "Pictures";
-            treeNode16.Text = "Pictures";
-            treeNode17.BackColor = System.Drawing.Color.Black;
-            treeNode17.ForeColor = System.Drawing.Color.White;
-            treeNode17.Name = "Videos";
-            treeNode17.Text = "Videos";
-            treeNode18.BackColor = System.Drawing.Color.Gray;
-            treeNode18.ForeColor = System.Drawing.Color.White;
-            treeNode18.Name = "Libraries";
-            treeNode18.Text = "Libraries";
+            treeNode5.BackColor = System.Drawing.Color.Black;
+            treeNode5.ForeColor = System.Drawing.Color.White;
+            treeNode5.Name = "Documents";
+            treeNode5.Text = "Documents";
+            treeNode6.BackColor = System.Drawing.Color.Black;
+            treeNode6.ForeColor = System.Drawing.Color.White;
+            treeNode6.Name = "Music";
+            treeNode6.Text = "Music";
+            treeNode7.BackColor = System.Drawing.Color.Black;
+            treeNode7.ForeColor = System.Drawing.Color.White;
+            treeNode7.Name = "Pictures";
+            treeNode7.Text = "Pictures";
+            treeNode8.BackColor = System.Drawing.Color.Black;
+            treeNode8.ForeColor = System.Drawing.Color.White;
+            treeNode8.Name = "Videos";
+            treeNode8.Text = "Videos";
+            treeNode9.BackColor = System.Drawing.Color.Gray;
+            treeNode9.ForeColor = System.Drawing.Color.White;
+            treeNode9.Name = "Libraries";
+            treeNode9.Text = "Libraries";
             this.tv_libraries.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode18});
+            treeNode9});
             this.tv_libraries.Scrollable = false;
             this.tv_libraries.Size = new System.Drawing.Size(138, 129);
             this.tv_libraries.TabIndex = 6;

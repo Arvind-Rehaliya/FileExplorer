@@ -37,7 +37,7 @@
             // 
             // fl_file
             // 
-            this.fl_file.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.fl_file.BackColor = System.Drawing.Color.Black;
             this.fl_file.Controls.Add(this.pb_file);
             this.fl_file.Controls.Add(this.lb_name);
             this.fl_file.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
