@@ -9,7 +9,7 @@ _1._ Above Screenshot shows Files loading.
 <br/> <br/>
 <br/> <br/>
 
-![Screenshot 1](https://github.com/Arvind-Rehaliya/FileExplorer/blob/master/scr_select.png "Selected files")
+![Screenshot 1](https://github.com/Arvind-Rehaliya/FileExplorer/blob/master/scr_select.PNG "Selected files")
 
 _2._ Above Screenshot shows Files selection.
 <br/> <br/>
