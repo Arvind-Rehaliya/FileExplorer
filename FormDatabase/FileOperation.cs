@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace FileExplorer
+namespace FormDatabase
 {
     public class FileOperation
     {
@@ -19,9 +19,14 @@ namespace FileExplorer
             try
             {
                 b.tb_path.Text = path;
+                b.AddPathHistory(path);
+
                 string[] allFiles = Directory.GetFileSystemEntries(path);
-                foreach(string s in allFiles)
-                {
+                if (allFiles.Length == 0) b.lb_info.Visible = true;
+                else b.lb_info.Visible = false;
+
+                foreach (string s in allFiles)
+                {                        
                     if (Directory.Exists(s))
                       {
                           b.FillFiles(new DirectoryInfo(s).Name, Type.Directory);

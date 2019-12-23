@@ -1,4 +1,4 @@
-﻿namespace FileExplorer {
+﻿namespace FormDatabase {
 
     public enum Type
     {

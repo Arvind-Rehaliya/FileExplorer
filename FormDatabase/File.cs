@@ -2,21 +2,21 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace FileExplorer
+namespace FormDatabase
 {
     public partial class File : Form
     {
         private string name;
         private Enum type;
         private bool isClicked = false;
-        private Base Base;
+        private Base b;
 
-        public File(string name, Enum type, Base Base)
+        public File(string name, Enum type, Base b)
         {
             InitializeComponent();
             this.name = name;
             this.type = type;
-            this.Base = Base;
+            this.b = b;
 
             CreateFile();
             
@@ -26,9 +26,9 @@ namespace FileExplorer
         {
             lb_name.Text = name;
             if(type.ToString().Equals("Directory"))
-                pb_file.Image = FileExplorer.Properties.Resources.folder;
+                pb_file.Image = Properties.Resources.folder;
             else
-                pb_file.Image = FileExplorer.Properties.Resources.document_160;
+                pb_file.Image = Properties.Resources.document_160;
         }
 
         private void File_MouseHover(object sender, EventArgs e) {}
@@ -38,9 +38,9 @@ namespace FileExplorer
             if (!isClicked)
             {
                 SelectFile();
-                Base.UnClickLastFile();
+                b.UnClickLastFile();
                 isClicked = true;
-                Base.ClickFile();
+                b.ClickFile();
             }
             else
             {
@@ -76,7 +76,9 @@ namespace FileExplorer
 
         private void File_DoubleCLicked(object sender, EventArgs e)
         {
-
+            b.ClickFile();
+            if(type.ToString().Equals("Directory"))
+            FileOperation.Fill(b.tb_path.Text + @"\" + name);
         }
     }
 }
