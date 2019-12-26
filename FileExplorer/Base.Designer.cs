@@ -1,4 +1,4 @@
-﻿namespace FormDatabase
+﻿namespace FileExplorer
 {
     partial class Base
     {
@@ -260,7 +260,7 @@
             this.button2.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Image = global::FormDatabase.Properties.Resources.search_204;
+            this.button2.Image = global::FileExplorer.Properties.Resources.search_204;
             this.button2.Location = new System.Drawing.Point(785, 6);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(27, 28);
@@ -276,7 +276,7 @@
             this.bt_refresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
             this.bt_refresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.bt_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_refresh.Image = global::FormDatabase.Properties.Resources.refresh_25;
+            this.bt_refresh.Image = global::FileExplorer.Properties.Resources.refresh_25;
             this.bt_refresh.Location = new System.Drawing.Point(569, 7);
             this.bt_refresh.Name = "bt_refresh";
             this.bt_refresh.Size = new System.Drawing.Size(27, 28);
@@ -288,7 +288,7 @@
             // 
             this.bt_prev.BackColor = System.Drawing.Color.Transparent;
             this.bt_prev.Enabled = false;
-            this.bt_prev.Image = global::FormDatabase.Properties.Resources.back_401;
+            this.bt_prev.Image = global::FileExplorer.Properties.Resources.back_401;
             this.bt_prev.Location = new System.Drawing.Point(3, 6);
             this.bt_prev.Name = "bt_prev";
             this.bt_prev.Size = new System.Drawing.Size(47, 30);
@@ -300,7 +300,7 @@
             // 
             this.bt_next.BackColor = System.Drawing.Color.Transparent;
             this.bt_next.Enabled = false;
-            this.bt_next.Image = global::FormDatabase.Properties.Resources.back_30;
+            this.bt_next.Image = global::FileExplorer.Properties.Resources.back_30;
             this.bt_next.Location = new System.Drawing.Point(47, 8);
             this.bt_next.Name = "bt_next";
             this.bt_next.Size = new System.Drawing.Size(31, 26);
