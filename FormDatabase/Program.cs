@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace FormDatabase
+namespace FileExplorer
 {
-    static class Program
+    class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -15,7 +15,7 @@ namespace FormDatabase
             FileOperation op = new FileOperation(b);
 
             Application.EnableVisualStyles();
-         //   Application.SetCompatibleTextRenderingDefault(false);
+          //  Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(b);
             
         }
