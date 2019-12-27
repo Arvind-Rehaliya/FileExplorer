@@ -31,8 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.fl_file = new System.Windows.Forms.FlowLayoutPanel();
             this.pb_file = new System.Windows.Forms.PictureBox();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tb_name = new System.Windows.Forms.TextBox();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.fl_file.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_file)).BeginInit();
             this.SuspendLayout();
@@ -61,11 +61,6 @@
             this.pb_file.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.File_MouseDoubleClicked);
             this.pb_file.MouseHover += new System.EventHandler(this.File_MouseHover);
             // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.Text = "notifyIcon1";
-            this.notifyIcon1.Visible = true;
-            // 
             // tb_name
             // 
             this.tb_name.AcceptsReturn = true;
@@ -87,6 +82,11 @@
             this.tb_name.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Name_KeyUp);
             this.tb_name.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Name_MouseDown);
             this.tb_name.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Name_MouseUp);
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
             // 
             // File
             // 
