@@ -9,7 +9,7 @@ namespace FileExplorer {
     public partial class File : Form {
         private string name;
         private Enum type;
-        private bool isClicked = false;
+        private bool isClicked = false, isNameClicked = false;
         private Base b;
         private Timer timer;
 
@@ -132,8 +132,7 @@ namespace FileExplorer {
             });
             t.Start();
             t.Join();
-            tb_name.ReadOnly = false;
-            tb_name.SelectAll();
+            isNameClicked = true;
         }
 
         private void Name_MouseDown(object sender, MouseEventArgs e) {
@@ -154,11 +153,22 @@ namespace FileExplorer {
 
         private void Name_MouseUp(object sender, MouseEventArgs e) {
             timer.Enabled = false;
+            if(isNameClicked) {
+                isNameClicked = false;
+                tb_name.ReadOnly = false;
+                tb_name.SelectAll();
+                UnSelectFile();
+            } else
+                tb_name.Text = name;
         }
 
         private void Name_KeyUp(object sender, KeyEventArgs e) {
             if(e.KeyCode == Keys.Enter) {
+                string newName = tb_name.Text;
+                FileOperation.RenameFile(b.tb_path.Text + @"\" + name, b.tb_path.Text + @"\" + newName);
                 tb_name.ReadOnly = true;
+                SelectFile();
+                fl_file.Focus();
             }
         }
     }

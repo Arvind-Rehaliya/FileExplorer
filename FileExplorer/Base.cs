@@ -15,13 +15,18 @@ namespace FileExplorer {
         private TreeNode[] lib_nodes = new TreeNode[5];
         private TreeNode[] fav_nodes = new TreeNode[4];
         private SortedList history_path = new SortedList();
-        private int seek = -1, current = -1;
+        private int seek = -1, current = -1, currentX = 0;
 
         public Base() {
             InitializeComponent();
+            SetProperties();
             CreateContextMenu();
             InitNodes();
 
+        }
+
+        private void SetProperties() {
+            currentX = this.Width;
         }
 
         public void FillFiles(string fileName, Enum type) {
@@ -269,6 +274,28 @@ namespace FileExplorer {
             files.Clear();
             fileBounds.Clear();
             pn_flow.Controls.Clear();
+            pn_flow.Controls.Add(lb_info);
+        }
+        
+        private void sp_container_Panel2_SizeChanged(object sender, EventArgs e) {
+            lb_info.Width = sp_container.Panel2.Width - 5;
+        }
+
+        private void Base_SizeChanged(object sender, EventArgs e) {
+            if(currentX > this.Width) {
+                int t = sp_container.SplitterDistance - (currentX - this.Width);
+                sp_container.SplitterDistance = t < 0 ? 0 : t;
+
+            } else if(sp_container.SplitterDistance < 151) {
+                int t = sp_container.SplitterDistance + this.Width - currentX;
+                sp_container.SplitterDistance = t < 151 ? t : 150;
+            }
+            
+            currentX = this.Width;
+        }
+
+        private void Base_Load(object sender, EventArgs e) {
+            this.ActiveControl = null;
         }
 
         public void AddPathHistory(string path) {
@@ -288,7 +315,12 @@ namespace FileExplorer {
 
             } catch(Exception ex) { MessageBox.Show(ex.Message); }
         }
-    
+
+        public void Reload() {
+            try {
+                FileOperation.Fill(tb_path.Text);
+            } catch(Exception e) { MessageBox.Show("Expn at Base: Reload() \n " + e); }
+        }
 
     }
 }
