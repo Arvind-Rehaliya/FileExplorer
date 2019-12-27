@@ -42,5 +42,14 @@ namespace FileExplorer {
             } catch(Exception e) { Console.WriteLine(e.Message + " : " + e.StackTrace); }
             return false;
         }
+
+        public static void RenameFile(string source, string destination) {
+            try {
+                System.IO.File.Move(source, destination);
+                new System.IO.FileInfo(destination).Refresh();
+
+            }catch(Exception e) { System.Windows.Forms.MessageBox.Show("From RenameFile: " + e); }
+        }
+
     }
 }
