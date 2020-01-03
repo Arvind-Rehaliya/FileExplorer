@@ -8,14 +8,16 @@ namespace FileExplorer {
         private SortedList files = new SortedList();
         private Graphics g;
         private bool isDown = false;
+        internal static bool ControlKey = false;
         private int X = 0, Y = 0;
         private Point pointXY;
         private SortedList fileBounds = new SortedList();
-        private int lastClickedFile = 0;
         private TreeNode[] lib_nodes = new TreeNode[5];
         private TreeNode[] fav_nodes = new TreeNode[4];
         private SortedList history_path = new SortedList();
         private int seek = -1, current = -1, currentX = 0;
+        private string CurrentLocation;
+
 
         public Base() {
             InitializeComponent();
@@ -23,6 +25,11 @@ namespace FileExplorer {
             CreateContextMenu();
             InitNodes();
 
+        }
+
+        public void SetLocationBar(string path) {
+            this.CurrentLocation = path;
+            this.tb_path.Text = CurrentLocation;
         }
 
         private void SetProperties() {
@@ -36,12 +43,8 @@ namespace FileExplorer {
             fileBounds.Add(fileName, file.fl_file.Bounds);
         }
 
-        private void pn_flow_Clicked(object sender, System.EventArgs e) {
-            UnSelectAll();
-        }
-
-        private File CreateNewFolder(String name, Enum type) {
-            return new File(name, type.ToString().Equals("Directory") ? Type.Directory : Type.File, this);
+        private File CreateNewFolder(String path, Enum type) {
+            return new File(path, type.ToString().Equals("Directory") ? FileType.Directory : FileType.File, this);
         }
 
         private void pn_flow_MouseMove(object sender, MouseEventArgs me) {
@@ -68,20 +71,28 @@ namespace FileExplorer {
             m_new.MergeMenu(new ContextMenu(new MenuItem[] { m_folder, m_doc }));
 
             MenuItem m_refresh = new MenuItem("Refresh");
-            m_refresh.Click += (o, e) => {
-                bt_refresh.PerformClick();
-            };
+            m_refresh.Click += (o, e) => bt_refresh.PerformClick();
 
-            m_folder.Click += (o, e) => {
-                MessageBox.Show("Folder Created ");
-            };
+            m_folder.Click += (o, e) => CreateNewFolder();
 
-            m_doc.Click += (o, e) => {
-                MessageBox.Show("Document Created ");
-            };
+            m_doc.Click += (o, e) => CreateNewDocument();
 
             ContextMenu menu = new ContextMenu(new MenuItem[] { m_new, m_refresh });
             pn_flow.ContextMenu = menu;
+        }
+
+        private void CreateNewFolder() {
+            try {
+                FileOperation.CreateFolder(CurrentLocation);
+
+            } catch(Exception e) { MessageBox.Show("from Base: OnCreateNewFolder: \n" + e); }
+        }
+
+        private void CreateNewDocument() {
+            try {
+                FileOperation.CreateDocument(CurrentLocation);
+
+            } catch(Exception e) { MessageBox.Show("from Base: OnCreateNewDocument: \n" + e); }
         }
 
         private void pn_flow_MouseDown(object sender, MouseEventArgs me) {
@@ -89,24 +100,17 @@ namespace FileExplorer {
             isDown = true;
             X = me.X;
             Y = me.Y;
-            UnSelectAll();
+            UnClickAll();
         }
 
-        public void ClickFile() {
-            UnSelectAll();
-            for(int i = 0; i < files.Count; i++) {
-                if(((File) files.GetByIndex(i)).IsClicked()) {
-                    ((File) files.GetByIndex(i)).SelectFile();
-                    lastClickedFile = i;
-                    break;
-                }
+        public void UnClickAll() {
+            for(int i = 0; i < SelectedFiles.GetNames().Length; i++) {
+                int index = files.IndexOfKey(SelectedFiles.GetNames()[i].ToString());
+                if(index < 0)
+                    return;
+                ((File) files.GetByIndex(index)).UnSelectFile();
             }
-        }
-
-        public void UnSelectAll() {
-            for(int i = 0; i < files.Count; i++) {
-                ((File) files.GetByIndex(i)).UnSelectFile();
-            }
+            SelectedFiles.Clear();
         }
 
         private void NodeDocuments_Clicked() {
@@ -182,16 +186,6 @@ namespace FileExplorer {
 
             tv_favorites.ExpandAll();
             tv_libraries.ExpandAll();
-        }
-
-        public void UnClickLastFile() {
-            if(files.Count > 0) {
-                try {
-                    ((File) files.GetByIndex(lastClickedFile)).SetClicked(false);
-                    ((File) files.GetByIndex(lastClickedFile)).UnSelectFile();
-                } catch(Exception e) { MessageBox.Show(e.Message + "\n" + lastClickedFile + "/" + files.Count); }
-
-            }
         }
 
         private void tb_path_KeyUp(object sender, KeyEventArgs e) {
@@ -270,32 +264,42 @@ namespace FileExplorer {
         }
 
         public void ClearSpace() {
-            lastClickedFile = 0;
             files.Clear();
             fileBounds.Clear();
             pn_flow.Controls.Clear();
             pn_flow.Controls.Add(lb_info);
         }
-        
+
         private void sp_container_Panel2_SizeChanged(object sender, EventArgs e) {
-            lb_info.Width = sp_container.Panel2.Width - 5;
+            lb_info.Width = sp_container.Panel2.Width;
         }
 
         private void Base_SizeChanged(object sender, EventArgs e) {
-            if(currentX > this.Width) {
-                int t = sp_container.SplitterDistance - (currentX - this.Width);
-                sp_container.SplitterDistance = t < 0 ? 0 : t;
+            try {
+                if(currentX > this.Width) {
+                    int t = sp_container.SplitterDistance - (currentX - this.Width);
+                    sp_container.SplitterDistance = t < 0 ? 0 : t;
 
-            } else if(sp_container.SplitterDistance < 151) {
-                int t = sp_container.SplitterDistance + this.Width - currentX;
-                sp_container.SplitterDistance = t < 151 ? t : 150;
-            }
-            
+                } else if(sp_container.SplitterDistance < 151) {
+                    int t = sp_container.SplitterDistance + this.Width - currentX;
+                    sp_container.SplitterDistance = t < 151 ? t : 150;
+                }
+            } catch(Exception) { }
+
             currentX = this.Width;
         }
 
-        private void Base_Load(object sender, EventArgs e) {
-            this.ActiveControl = null;
+        private void pn_flow_MouseClicked(object sender, MouseEventArgs e) {
+            Focus();
+            UnClickAll();
+        }
+
+        private void Base_KeyDown(object sender, KeyEventArgs e) { if(e.KeyCode == Keys.ControlKey) ControlKey = true; }
+
+        private void Base_KeyUp(object sender, KeyEventArgs e) { if(e.KeyCode == Keys.ControlKey) ControlKey = false; }
+
+        private void button1_Click(object sender, EventArgs e) {
+            // Debugging Msg here ...
         }
 
         public void AddPathHistory(string path) {
@@ -318,7 +322,7 @@ namespace FileExplorer {
 
         public void Reload() {
             try {
-                FileOperation.Fill(tb_path.Text);
+                FileOperation.Fill(CurrentLocation);
             } catch(Exception e) { MessageBox.Show("Expn at Base: Reload() \n " + e); }
         }
 

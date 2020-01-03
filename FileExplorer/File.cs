@@ -7,25 +7,29 @@ using Timer = System.Timers.Timer;
 
 namespace FileExplorer {
     public partial class File : Form {
-        private string name;
+        private string Path, FileName;
         private Enum type;
-        private bool isClicked = false, isNameClicked = false;
+        private bool isNameClicked = false;
+        public bool Clicked {get; set;}
+        public bool Selected { get; private set; }
         private Base b;
         private Timer timer;
-
-        public File(string name, Enum type, Base b) {
+        
+        public File(string Path, Enum type, Base b) {
             InitializeComponent();
-            this.name = name;
+            this.Path = Path;
             this.type = type;
             this.b = b;
 
             CreateFile();
             SetTimer();
             CreateContextMenu();
+            
         }
 
         private void CreateFile() {
-            tb_name.Text = name;
+            FileName = new System.IO.DirectoryInfo(Path).Name;
+            tb_name.Text = FileName;
             if(type.ToString().Equals("Directory"))
                 pb_file.Image = Properties.Resources.folder;
             else
@@ -35,23 +39,25 @@ namespace FileExplorer {
         private void File_MouseHover(object sender, EventArgs e) { }
 
         public string GetName() {
-            return name;
+            return FileName;
+        }
+
+        public string GetPath() {
+            return Path;
         }
 
         public void SelectFile() {
+            if(Selected) return;
+            fl_file.Focus();
+            Selected = true;
             fl_file.BackColor = Color.SteelBlue;
+            SelectedFiles.Add(Path);
         }
 
         public void UnSelectFile() {
+            if(!Selected) return;
+            Selected = false;
             fl_file.BackColor = Color.Empty;
-        }
-
-        public bool IsClicked() {
-            return isClicked;
-        }
-
-        public void SetClicked(bool b) {
-            isClicked = b;
         }
 
         private void CreateContextMenu() {
@@ -97,24 +103,35 @@ namespace FileExplorer {
         }
 
         private void File_MouseDoubleClicked(object sender, MouseEventArgs e) {
-            b.ClickFile();
+            b.UnClickAll();
             if(type.ToString().Equals("Directory"))
-                b.LoadFiles(b.tb_path.Text + @"\" + name);
+                b.LoadFiles(Path);
+        }
+
+        public void SelectMultipleFiles() {
+            Clicked = true;
+            SelectFile();
         }
 
         private void File_MouseClicked(object sender, MouseEventArgs e) {
-            if(e.Button == MouseButtons.Left) {
-                if(!isClicked) {
-                    b.UnClickLastFile();
-                    SelectFile();
-                    isClicked = true;
-                    b.ClickFile();
-                } else {
+            if(e.Button == MouseButtons.Left && Base.ControlKey) {
+                if(Clicked) {
                     UnSelectFile();
-                    isClicked = false;
+                    Clicked = false;
+                } else {
+                    SelectFile();
+                    Clicked = true;
                 }
-            } else {
-
+             
+            } else if(e.Button == MouseButtons.Left && Base.ControlKey == false) {
+                if(Clicked) {
+                    UnSelectFile();
+                    Clicked = false;
+                } else {
+                    b.UnClickAll();
+                    SelectFile();
+                    Clicked = true;
+                }
             }
         }
 
@@ -137,14 +154,11 @@ namespace FileExplorer {
 
         private void Name_MouseDown(object sender, MouseEventArgs e) {
             new Thread(() => {
-                if(!isClicked) {
-                    b.UnClickLastFile();
+            if(Clicked) {
+                UnSelectFile();
+            } else {
+                    b.UnClickAll();
                     SelectFile();
-                    isClicked = true;
-                    b.ClickFile();
-                } else {
-                    UnSelectFile();
-                    isClicked = false;
                 }
             }).Start();
 
@@ -159,17 +173,23 @@ namespace FileExplorer {
                 tb_name.SelectAll();
                 UnSelectFile();
             } else
-                tb_name.Text = name;
+                tb_name.Text = FileName;
         }
 
         private void Name_KeyUp(object sender, KeyEventArgs e) {
             if(e.KeyCode == Keys.Enter) {
                 string newName = tb_name.Text;
-                FileOperation.RenameFile(b.tb_path.Text + @"\" + name, b.tb_path.Text + @"\" + newName);
+                FileOperation.RenameFile(Path, new System.IO.FileInfo(Path).DirectoryName);
                 tb_name.ReadOnly = true;
                 SelectFile();
                 fl_file.Focus();
             }
         }
+
+        private void tb_name_Leave(object sender, EventArgs e) {
+            tb_name.Text = FileName;
+        }
+
+
     }
 }

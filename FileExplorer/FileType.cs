@@ -1,6 +1,6 @@
 ﻿namespace FileExplorer {
 
-    public enum Type
+    public enum FileType
     {
         Directory, File
     }
