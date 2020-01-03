@@ -28,11 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.fl_file = new System.Windows.Forms.FlowLayoutPanel();
             this.pb_file = new System.Windows.Forms.PictureBox();
             this.tb_name = new System.Windows.Forms.TextBox();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.fl_file.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_file)).BeginInit();
             this.SuspendLayout();
@@ -40,6 +38,7 @@
             // fl_file
             // 
             this.fl_file.BackColor = System.Drawing.Color.Black;
+            this.fl_file.CausesValidation = false;
             this.fl_file.Controls.Add(this.pb_file);
             this.fl_file.Controls.Add(this.tb_name);
             this.fl_file.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -80,13 +79,9 @@
             this.tb_name.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tb_name.WordWrap = false;
             this.tb_name.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Name_KeyUp);
+            this.tb_name.Leave += new System.EventHandler(this.tb_name_Leave);
             this.tb_name.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Name_MouseDown);
             this.tb_name.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Name_MouseUp);
-            // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.Text = "notifyIcon1";
-            this.notifyIcon1.Visible = true;
             // 
             // File
             // 
@@ -103,7 +98,6 @@
         #endregion
         private System.Windows.Forms.PictureBox pb_file;
         public System.Windows.Forms.FlowLayoutPanel fl_file;
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.TextBox tb_name;
     }
 }

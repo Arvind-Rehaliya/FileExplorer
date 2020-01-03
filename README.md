@@ -16,5 +16,11 @@ _2._ Above Screenshot shows Files selection.
 <br/> <br/>
 
 
+![Screenshot 1](https://github.com/Arvind-Rehaliya/FileExplorer/blob/master/scr_random_select.PNG "Selected files")
+
+_3._ Above Screenshot shows Random Files selected.
+<br/> <br/>
+<br/> <br/>
+
 
 Still contains few bugs. That will be solve soon ;)
