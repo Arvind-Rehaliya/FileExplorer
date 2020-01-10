@@ -28,28 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode46 = new System.Windows.Forms.TreeNode("Desktop");
-            System.Windows.Forms.TreeNode treeNode47 = new System.Windows.Forms.TreeNode("Downloads");
-            System.Windows.Forms.TreeNode treeNode48 = new System.Windows.Forms.TreeNode("Recent places");
-            System.Windows.Forms.TreeNode treeNode49 = new System.Windows.Forms.TreeNode("Favorites", new System.Windows.Forms.TreeNode[] {
-            treeNode46,
-            treeNode47,
-            treeNode48});
-            System.Windows.Forms.TreeNode treeNode50 = new System.Windows.Forms.TreeNode("Documents");
-            System.Windows.Forms.TreeNode treeNode51 = new System.Windows.Forms.TreeNode("Music");
-            System.Windows.Forms.TreeNode treeNode52 = new System.Windows.Forms.TreeNode("Pictures");
-            System.Windows.Forms.TreeNode treeNode53 = new System.Windows.Forms.TreeNode("Videos");
-            System.Windows.Forms.TreeNode treeNode54 = new System.Windows.Forms.TreeNode("Libraries", new System.Windows.Forms.TreeNode[] {
-            treeNode50,
-            treeNode51,
-            treeNode52,
-            treeNode53});
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Desktop");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Downloads");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Recent places");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Favorites", new System.Windows.Forms.TreeNode[] {
+            treeNode10,
+            treeNode11,
+            treeNode12});
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Documents");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Music");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Pictures");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Videos");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Libraries", new System.Windows.Forms.TreeNode[] {
+            treeNode14,
+            treeNode15,
+            treeNode16,
+            treeNode17});
             this.pn_flow = new System.Windows.Forms.FlowLayoutPanel();
             this.lb_info = new System.Windows.Forms.Label();
             this.sp_container = new System.Windows.Forms.SplitContainer();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tv_favorites = new System.Windows.Forms.TreeView();
             this.tv_libraries = new System.Windows.Forms.TreeView();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tb_path = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -58,7 +59,6 @@
             this.bt_prev = new System.Windows.Forms.Button();
             this.bt_next = new System.Windows.Forms.Button();
             this.tb_search = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.pn_flow.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sp_container)).BeginInit();
             this.sp_container.Panel1.SuspendLayout();
@@ -158,24 +158,24 @@
             this.tv_favorites.LineColor = System.Drawing.Color.White;
             this.tv_favorites.Location = new System.Drawing.Point(3, 3);
             this.tv_favorites.Name = "tv_favorites";
-            treeNode46.BackColor = System.Drawing.Color.Black;
-            treeNode46.ForeColor = System.Drawing.Color.White;
-            treeNode46.Name = "Desktop";
-            treeNode46.Text = "Desktop";
-            treeNode47.BackColor = System.Drawing.Color.Black;
-            treeNode47.ForeColor = System.Drawing.Color.White;
-            treeNode47.Name = "Downloads";
-            treeNode47.Text = "Downloads";
-            treeNode48.BackColor = System.Drawing.Color.Black;
-            treeNode48.ForeColor = System.Drawing.Color.White;
-            treeNode48.Name = "Recent Places";
-            treeNode48.Text = "Recent places";
-            treeNode49.BackColor = System.Drawing.Color.Gray;
-            treeNode49.ForeColor = System.Drawing.Color.White;
-            treeNode49.Name = "Favorites";
-            treeNode49.Text = "Favorites";
+            treeNode10.BackColor = System.Drawing.Color.Black;
+            treeNode10.ForeColor = System.Drawing.Color.White;
+            treeNode10.Name = "Desktop";
+            treeNode10.Text = "Desktop";
+            treeNode11.BackColor = System.Drawing.Color.Black;
+            treeNode11.ForeColor = System.Drawing.Color.White;
+            treeNode11.Name = "Downloads";
+            treeNode11.Text = "Downloads";
+            treeNode12.BackColor = System.Drawing.Color.Black;
+            treeNode12.ForeColor = System.Drawing.Color.White;
+            treeNode12.Name = "Recent Places";
+            treeNode12.Text = "Recent places";
+            treeNode13.BackColor = System.Drawing.Color.Gray;
+            treeNode13.ForeColor = System.Drawing.Color.White;
+            treeNode13.Name = "Favorites";
+            treeNode13.Text = "Favorites";
             this.tv_favorites.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode49});
+            treeNode13});
             this.tv_favorites.Scrollable = false;
             this.tv_favorites.Size = new System.Drawing.Size(138, 112);
             this.tv_favorites.TabIndex = 7;
@@ -193,32 +193,44 @@
             this.tv_libraries.LineColor = System.Drawing.Color.White;
             this.tv_libraries.Location = new System.Drawing.Point(3, 121);
             this.tv_libraries.Name = "tv_libraries";
-            treeNode50.BackColor = System.Drawing.Color.Black;
-            treeNode50.ForeColor = System.Drawing.Color.White;
-            treeNode50.Name = "Documents";
-            treeNode50.Text = "Documents";
-            treeNode51.BackColor = System.Drawing.Color.Black;
-            treeNode51.ForeColor = System.Drawing.Color.White;
-            treeNode51.Name = "Music";
-            treeNode51.Text = "Music";
-            treeNode52.BackColor = System.Drawing.Color.Black;
-            treeNode52.ForeColor = System.Drawing.Color.White;
-            treeNode52.Name = "Pictures";
-            treeNode52.Text = "Pictures";
-            treeNode53.BackColor = System.Drawing.Color.Black;
-            treeNode53.ForeColor = System.Drawing.Color.White;
-            treeNode53.Name = "Videos";
-            treeNode53.Text = "Videos";
-            treeNode54.BackColor = System.Drawing.Color.Gray;
-            treeNode54.ForeColor = System.Drawing.Color.White;
-            treeNode54.Name = "Libraries";
-            treeNode54.Text = "Libraries";
+            treeNode14.BackColor = System.Drawing.Color.Black;
+            treeNode14.ForeColor = System.Drawing.Color.White;
+            treeNode14.Name = "Documents";
+            treeNode14.Text = "Documents";
+            treeNode15.BackColor = System.Drawing.Color.Black;
+            treeNode15.ForeColor = System.Drawing.Color.White;
+            treeNode15.Name = "Music";
+            treeNode15.Text = "Music";
+            treeNode16.BackColor = System.Drawing.Color.Black;
+            treeNode16.ForeColor = System.Drawing.Color.White;
+            treeNode16.Name = "Pictures";
+            treeNode16.Text = "Pictures";
+            treeNode17.BackColor = System.Drawing.Color.Black;
+            treeNode17.ForeColor = System.Drawing.Color.White;
+            treeNode17.Name = "Videos";
+            treeNode17.Text = "Videos";
+            treeNode18.BackColor = System.Drawing.Color.Gray;
+            treeNode18.ForeColor = System.Drawing.Color.White;
+            treeNode18.Name = "Libraries";
+            treeNode18.Text = "Libraries";
             this.tv_libraries.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode54});
+            treeNode18});
             this.tv_libraries.Scrollable = false;
             this.tv_libraries.Size = new System.Drawing.Size(138, 129);
             this.tv_libraries.TabIndex = 6;
             this.tv_libraries.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tv_libraries_AfterSelect);
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Segoe UI Symbol", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(3, 256);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(109, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "status";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // panel1
             // 
@@ -334,18 +346,6 @@
             this.tb_search.WordWrap = false;
             this.tb_search.Enter += new System.EventHandler(this.tb_search_Enter);
             this.tb_search.Leave += new System.EventHandler(this.tb_search_Leave);
-            // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Segoe UI Symbol", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(3, 256);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(109, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "status";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Base
             // 

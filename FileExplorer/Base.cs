@@ -16,7 +16,18 @@ namespace FileExplorer {
         private TreeNode[] fav_nodes = new TreeNode[4];
         private SortedList history_path = new SortedList();
         private int seek = -1, current = -1, currentX = 0;
-        private string CurrentLocation;
+        private string _CurrentLocation;
+        public string CurrentLocation { get; private set; } = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        internal bool CopyClicked = false;
+        internal bool CutClicked = false;
+
+        /*  private bool _CutClicked = false;
+          internal bool CutClicked1 { get { return _CutClicked; } set { _CutClicked = value; pn_flow.ContextMenu.MenuItems[2].Enabled = value; } }
+          private bool _CopyClicked1 = false;
+          internal bool CopyClicked1 { get { return _CopyClicked; } set { _CopyClicked = value; pn_flow.ContextMenu.MenuItems[2].Enabled = value; } }
+          */
+
+        private MenuItem m_new, m_folder, m_doc, m_refresh, m_paste, m_prop;
 
 
         public Base() {
@@ -24,10 +35,9 @@ namespace FileExplorer {
             SetProperties();
             CreateContextMenu();
             InitNodes();
-
         }
 
-        public void SetLocationBar(string path) {
+        public void SetLocation(string path) {
             this.CurrentLocation = path;
             this.tb_path.Text = CurrentLocation;
         }
@@ -37,13 +47,13 @@ namespace FileExplorer {
         }
 
         public void FillFiles(string fileName, Enum type) {
-            File file = CreateNewFolder(fileName, type);
+            File file = CreateNewFile(fileName, type);
             files.Add(fileName, file);
             pn_flow.Controls.Add(file.fl_file);
             fileBounds.Add(fileName, file.fl_file.Bounds);
         }
 
-        private File CreateNewFolder(String path, Enum type) {
+        private File CreateNewFile(String path, Enum type) {
             return new File(path, type.ToString().Equals("Directory") ? FileType.Directory : FileType.File, this);
         }
 
@@ -65,34 +75,62 @@ namespace FileExplorer {
         }
 
         private void CreateContextMenu() {
-            MenuItem m_new = new MenuItem("New");
-            MenuItem m_folder = new MenuItem("Folder");
-            MenuItem m_doc = new MenuItem("Document");
+            m_new = new MenuItem("New");
+            m_folder = new MenuItem("Folder");
+            m_doc = new MenuItem("Document");
+            m_refresh = new MenuItem("Refresh");
+            m_paste = new MenuItem("Paste") { Enabled = false };
+            m_prop = new MenuItem("Properties");
+
             m_new.MergeMenu(new ContextMenu(new MenuItem[] { m_folder, m_doc }));
 
-            MenuItem m_refresh = new MenuItem("Refresh");
-            m_refresh.Click += (o, e) => bt_refresh.PerformClick();
+            m_refresh.Click += (o, e) => RefreshFiles(CurrentLocation);
 
             m_folder.Click += (o, e) => CreateNewFolder();
 
             m_doc.Click += (o, e) => CreateNewDocument();
 
-            ContextMenu menu = new ContextMenu(new MenuItem[] { m_new, m_refresh });
+            m_paste.Click += (o, e) => PasteFiles();
+
+            m_prop.Click += (o, e) => FileProperties();
+
+            ContextMenu menu = new ContextMenu(new MenuItem[] { m_new, m_refresh, m_paste, m_prop });
             pn_flow.ContextMenu = menu;
         }
 
         private void CreateNewFolder() {
             try {
-                FileOperation.CreateFolder(CurrentLocation);
+                FileOperation.CreateFolder(CurrentLocation, null, true);
 
             } catch(Exception e) { MessageBox.Show("from Base: OnCreateNewFolder: \n" + e); }
         }
 
         private void CreateNewDocument() {
             try {
-                FileOperation.CreateDocument(CurrentLocation);
+                FileOperation.CreateDocument(CurrentLocation, true);
 
             } catch(Exception e) { MessageBox.Show("from Base: OnCreateNewDocument: \n" + e); }
+        }
+
+        internal void PasteFiles() {
+            try {
+                FileOperation.CopyFiles(SelectedFiles.LastSelectedFile == null ? CurrentLocation : SelectedFiles.LastSelectedFile, true, SelectedFiles.GetCopyBufferValues());
+                if(CutClicked == true) {
+                    CutClicked = false;
+                    pn_flow.ContextMenu.MenuItems[2].Enabled = false;
+                    if(CopyClicked)
+                        CopyClicked = false;
+                    LoadFiles(SelectedFiles.LastSelectedFile);
+                    FileOperation.DeleteFiles(SelectedFiles.GetCopyBufferValues());
+                    SelectedFiles.ClearCopyBuffer();
+                }
+
+            } catch(Exception ex) { MessageBox.Show(ex.Message); UnClickAll(); }
+
+        }
+
+        private void FileProperties() {
+
         }
 
         private void pn_flow_MouseDown(object sender, MouseEventArgs me) {
@@ -189,10 +227,15 @@ namespace FileExplorer {
         }
 
         private void tb_path_KeyUp(object sender, KeyEventArgs e) {
-            if(e.KeyCode.ToString().Equals("Return")) {
+            if(e.KeyCode == Keys.Enter) {
+                string path = tb_path.Text;
                 try {
-                    LoadFiles(tb_path.Text);
-                } catch(Exception ex) { MessageBox.Show("Specified Path not Found !\n" + ex.Message); }
+                    RefreshFiles(path);
+                    if(System.IO.File.Exists(path)) {
+                        File f = (File) files.GetByIndex(files.IndexOfKey(path));
+                        f.SelectFile();
+                    }
+                } catch(Exception) { }
             }
         }
 
@@ -234,7 +277,7 @@ namespace FileExplorer {
         private void bt_prev_Click(object sender, EventArgs e) {
             try {
                 if(seek > 0) {
-                    FileOperation.Fill(history_path.GetByIndex(--seek).ToString());
+                    RefreshFiles(history_path.GetByIndex(--seek).ToString());
                     bt_next.Enabled = true;
                 }
 
@@ -248,7 +291,7 @@ namespace FileExplorer {
         private void bt_next_Click(object sender, EventArgs e) {
             try {
                 if(seek < current) {
-                    FileOperation.Fill(history_path.GetByIndex(++seek).ToString());
+                    RefreshFiles(history_path.GetByIndex(++seek).ToString());
                     bt_prev.Enabled = true;
                 }
 
@@ -260,7 +303,13 @@ namespace FileExplorer {
         }
 
         private void bt_refresh_Click(object sender, EventArgs e) {
-            FileOperation.Fill(history_path.GetByIndex(seek).ToString());
+            RefreshFiles(CurrentLocation);
+        }
+
+        public void RefreshFiles(string path) {
+            try {
+                FileOperation.LoadFiles(path);
+            } catch(Exception ex) { MessageBox.Show(ex.Message); }
         }
 
         public void ClearSpace() {
@@ -268,6 +317,7 @@ namespace FileExplorer {
             fileBounds.Clear();
             pn_flow.Controls.Clear();
             pn_flow.Controls.Add(lb_info);
+
         }
 
         private void sp_container_Panel2_SizeChanged(object sender, EventArgs e) {
@@ -290,8 +340,9 @@ namespace FileExplorer {
         }
 
         private void pn_flow_MouseClicked(object sender, MouseEventArgs e) {
-            Focus();
-            UnClickAll();
+            if(e.Button == MouseButtons.Left) {
+                UnClickAll();
+            }
         }
 
         private void Base_KeyDown(object sender, KeyEventArgs e) { if(e.KeyCode == Keys.ControlKey) ControlKey = true; }
@@ -299,10 +350,13 @@ namespace FileExplorer {
         private void Base_KeyUp(object sender, KeyEventArgs e) { if(e.KeyCode == Keys.ControlKey) ControlKey = false; }
 
         private void button1_Click(object sender, EventArgs e) {
+
             // Debugging Msg here ...
         }
 
         public void AddPathHistory(string path) {
+            if(current > -1 && history_path.GetByIndex(current).Equals(path))
+                return;
             history_path.Add(++current, path);
             ++seek;
             if(bt_next.Enabled)
@@ -313,17 +367,11 @@ namespace FileExplorer {
             try {
                 if(!bt_prev.Enabled)
                     bt_prev.Enabled = true;
-                FileOperation.Fill(path);
+                RefreshFiles(path);
                 seek = current;
                 AddPathHistory(path);
 
             } catch(Exception ex) { MessageBox.Show(ex.Message); }
-        }
-
-        public void Reload() {
-            try {
-                FileOperation.Fill(CurrentLocation);
-            } catch(Exception e) { MessageBox.Show("Expn at Base: Reload() \n " + e); }
         }
 
     }

@@ -69,11 +69,12 @@
             this.tb_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tb_name.CausesValidation = false;
             this.tb_name.Cursor = System.Windows.Forms.Cursors.Default;
+            this.tb_name.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_name.ForeColor = System.Drawing.Color.White;
             this.tb_name.Location = new System.Drawing.Point(3, 87);
             this.tb_name.Name = "tb_name";
             this.tb_name.ReadOnly = true;
-            this.tb_name.Size = new System.Drawing.Size(73, 13);
+            this.tb_name.Size = new System.Drawing.Size(73, 16);
             this.tb_name.TabIndex = 1;
             this.tb_name.Text = "File Name File Name";
             this.tb_name.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

@@ -10,11 +10,13 @@ namespace FileExplorer {
         private string Path, FileName;
         private Enum type;
         private bool isNameClicked = false;
-        public bool Clicked {get; set;}
+        public bool Clicked { get; set; }
         public bool Selected { get; private set; }
         private Base b;
         private Timer timer;
-        
+        private MenuItem m_open, m_cut, m_copy, m_delete, m_paste, m_rename, m_prop;
+
+
         public File(string Path, Enum type, Base b) {
             InitializeComponent();
             this.Path = Path;
@@ -24,7 +26,7 @@ namespace FileExplorer {
             CreateFile();
             SetTimer();
             CreateContextMenu();
-            
+
         }
 
         private void CreateFile() {
@@ -47,7 +49,8 @@ namespace FileExplorer {
         }
 
         public void SelectFile() {
-            if(Selected) return;
+            if(Selected)
+                return;
             fl_file.Focus();
             Selected = true;
             fl_file.BackColor = Color.SteelBlue;
@@ -55,62 +58,71 @@ namespace FileExplorer {
         }
 
         public void UnSelectFile() {
-            if(!Selected) return;
+            if(!Selected)
+                return;
             Selected = false;
             fl_file.BackColor = Color.Empty;
         }
 
         private void CreateContextMenu() {
-            MenuItem m_open = new MenuItem("Open");
-            MenuItem m_cut = new MenuItem("Cut");
-            MenuItem m_copy = new MenuItem("Copy");
-            MenuItem m_paste = new MenuItem("Paste");
-            MenuItem m_delete = new MenuItem("Delete");
-            MenuItem m_rename = new MenuItem("Rename");
-            MenuItem m_prop = new MenuItem("Properties");
-            
+            m_open = new MenuItem("Open");
+            m_cut = new MenuItem("Cut");
+            m_copy = new MenuItem("Copy");
+            m_delete = new MenuItem("Delete");
+            m_paste = new MenuItem("Paste");
+            m_rename = new MenuItem("Rename");
+            m_prop = new MenuItem("Properties");
+
             m_open.Click += (o, e) => {
-                MessageBox.Show("Open");
+                FileDoubleClicked();
             };
 
             m_cut.Click += (o, e) => {
-                MessageBox.Show("Cut");
+                b.CutClicked = true;
+                b.pn_flow.ContextMenu.MenuItems[2].Enabled = true;
+                SelectedFiles.SetCopyBuffer();
             };
 
-            m_paste.Click += (o, e) => {
-                MessageBox.Show("Copy");
-            };
-
-            m_paste.Click += (o, e) => {
-                MessageBox.Show("Paste");
+            m_copy.Click += (o, e) => {
+                b.CopyClicked = true;
+                b.pn_flow.ContextMenu.MenuItems[2].Enabled = true;
+                SelectedFiles.SetCopyBuffer();
             };
 
             m_delete.Click += (o, e) => {
-                MessageBox.Show("Delete");
+                try {
+                    FileOperation.DeleteFiles(SelectedFiles.GetNames());
+                    b.LoadFiles(b.CurrentLocation);
+                } catch(Exception ex) { MessageBox.Show(ex.Message); UnSelectFile(); }
+            };
+
+
+            m_paste.Click += (o, e) => {
+                b.PasteFiles();
             };
 
             m_rename.Click += (o, e) => {
-                MessageBox.Show("Rename");
+                RenameFile();
             };
 
             m_prop.Click += (o, e) => {
-                MessageBox.Show("Properties");
+                FileProperties();
             };
 
-            ContextMenu menu = new ContextMenu(new MenuItem[] { m_open, m_cut, m_copy, m_paste, m_delete, m_rename, m_prop });
+            ContextMenu menu = new ContextMenu(new MenuItem[] { m_open, m_cut, m_copy, m_delete, m_rename, m_prop });
             fl_file.ContextMenu = menu;
 
+            fl_file.ContextMenu.Popup += (o, ev) => {
+                if(b.CutClicked || b.CopyClicked) {
+                    if(!fl_file.ContextMenu.MenuItems.Contains(m_paste))
+                        fl_file.ContextMenu.MenuItems.Add(4, m_paste);
+                } else if(fl_file.ContextMenu.MenuItems.Contains(m_paste))
+                    fl_file.ContextMenu.MenuItems.Remove(m_paste);
+            };
         }
 
         private void File_MouseDoubleClicked(object sender, MouseEventArgs e) {
-            b.UnClickAll();
-            if(type.ToString().Equals("Directory"))
-                b.LoadFiles(Path);
-        }
-
-        public void SelectMultipleFiles() {
-            Clicked = true;
-            SelectFile();
+            FileDoubleClicked();
         }
 
         private void File_MouseClicked(object sender, MouseEventArgs e) {
@@ -121,8 +133,9 @@ namespace FileExplorer {
                 } else {
                     SelectFile();
                     Clicked = true;
+                    SelectedFiles.LastSelectedFile = Path;
                 }
-             
+
             } else if(e.Button == MouseButtons.Left && Base.ControlKey == false) {
                 if(Clicked) {
                     UnSelectFile();
@@ -131,6 +144,7 @@ namespace FileExplorer {
                     b.UnClickAll();
                     SelectFile();
                     Clicked = true;
+                    SelectedFiles.LastSelectedFile = Path;
                 }
             }
         }
@@ -153,10 +167,11 @@ namespace FileExplorer {
         }
 
         private void Name_MouseDown(object sender, MouseEventArgs e) {
+            b.UnClickAll();
             new Thread(() => {
-            if(Clicked) {
-                UnSelectFile();
-            } else {
+                if(Clicked) {
+                    UnSelectFile();
+                } else {
                     b.UnClickAll();
                     SelectFile();
                 }
@@ -168,28 +183,43 @@ namespace FileExplorer {
         private void Name_MouseUp(object sender, MouseEventArgs e) {
             timer.Enabled = false;
             if(isNameClicked) {
-                isNameClicked = false;
-                tb_name.ReadOnly = false;
-                tb_name.SelectAll();
-                UnSelectFile();
+                RenameFile();
             } else
                 tb_name.Text = FileName;
         }
 
         private void Name_KeyUp(object sender, KeyEventArgs e) {
-            if(e.KeyCode == Keys.Enter) {
-                string newName = tb_name.Text;
-                FileOperation.RenameFile(Path, new System.IO.FileInfo(Path).DirectoryName);
-                tb_name.ReadOnly = true;
-                SelectFile();
-                fl_file.Focus();
-            }
+            try {
+                if(e.KeyCode == Keys.Enter) {
+                    string newName = new System.IO.FileInfo(Path).DirectoryName + @"\" + tb_name.Text;
+                    FileOperation.RenameFile(Path, newName);
+                    SelectedFiles.Remove(Path);
+                    tb_name.ReadOnly = true;
+                    FileName = tb_name.Text;
+                    Path = newName;
+                    SelectFile();
+                }
+            } catch(Exception ex) { MessageBox.Show(ex.Message); }
         }
 
         private void tb_name_Leave(object sender, EventArgs e) {
             tb_name.Text = FileName;
         }
 
+        private void FileDoubleClicked() {
+            b.UnClickAll();
+            if(type.ToString().Equals("Directory"))
+                b.LoadFiles(Path);
+        }
+
+        private void RenameFile() {
+            isNameClicked = false;
+            tb_name.ReadOnly = false;
+            tb_name.SelectAll();
+            UnSelectFile();
+        }
+
+        private void FileProperties() { }
 
     }
 }
