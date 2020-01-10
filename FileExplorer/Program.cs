@@ -15,9 +15,9 @@ namespace FileExplorer
             FileOperation op = new FileOperation(b);
 
             Application.EnableVisualStyles();
-          //  Application.SetCompatibleTextRenderingDefault(false);
+            //  Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(b);
-            
+
         }
     }
 }
